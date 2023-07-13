@@ -1,0 +1,46 @@
+<button type="button" class="btn btn-primary mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#editProfile">
+    Edit/Delete profile
+</button>
+
+<div class="modal fade" id="editProfile" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Profile</h1>
+            </div>
+            <div class="modal-body">
+                <form action="/edit-profile" method="post">
+                    <input type="hidden" name="user_id" th:value="${#authentication.principal.id}">
+                    <div class="row mt">
+                        <div class="col-12">
+                            <label>EMAIL : </label>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <input type="email" class="form-control" name="user_email" placeholder="Email" th:value="${#authentication.principal.email}" required>
+                        </div>
+                    </div>
+                    <div class="row mt">
+                        <div class="col-12">
+                            <label>USERNAME : </label>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <input type="text" class="form-control" name="user_fullName" placeholder="Full Name" th:value="${#authentication.principal.fullName}" required>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button class="btn btn-success">EDIT</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
