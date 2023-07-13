@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import project.TyndaPlatform.model.Music;
+import project.TyndaPlatform.dto.MusicDTO;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,7 +24,7 @@ public class FileUploadService {
     @Autowired
     private MusicService musicService;
 
-    public boolean uploadImage(MultipartFile multipartFile, Music music){
+    public boolean uploadImage(MultipartFile multipartFile, MusicDTO music){
         try{
 
             String fileToken = DigestUtils.sha1Hex("_!");
@@ -41,7 +41,7 @@ public class FileUploadService {
         return true;
     }
 
-    public boolean uploadMusic(MultipartFile multipartFile, Music music){
+    public boolean uploadMusic(MultipartFile multipartFile, MusicDTO music){
         try{
 
             String fileToken = DigestUtils.sha1Hex("!_");

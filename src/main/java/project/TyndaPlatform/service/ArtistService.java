@@ -2,7 +2,8 @@ package project.TyndaPlatform.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import project.TyndaPlatform.model.Artist;
+import project.TyndaPlatform.dto.ArtistDTO;
+import project.TyndaPlatform.mapper.ArtistMapper;
 import project.TyndaPlatform.repository.ArtistRepository;
 
 import java.util.List;
@@ -11,21 +12,25 @@ import java.util.List;
 public class ArtistService {
 
     @Autowired
+    private ArtistMapper artistMapper;
+
+    @Autowired
     private ArtistRepository artistRepository;
 
-    public Artist addArtist(Artist artist){
-        return artistRepository.save(artist);
+    public ArtistDTO addArtist(ArtistDTO artist){
+
+        return artistMapper.toDto(artistRepository.save(artistMapper.toModel(artist)));
     }
 
-    public List<Artist> getArtists(){
-        return artistRepository.findAll();
+    public List<ArtistDTO> getArtists(){
+        return artistMapper.toDtoList(artistRepository.findAll());
     }
 
-    public Artist getArtistById(Long id){
-        return artistRepository.getArtistById(id);
+    public ArtistDTO getArtistById(Long id){
+        return artistMapper.toDto(artistRepository.getArtistById(id));
     }
 
-    public List<Artist> getArtistsByUserId(Long id){
-        return artistRepository.getArtistsByUserId(id);
+    public List<ArtistDTO> getArtistsByUserId(Long id){
+        return artistMapper.toDtoList(artistRepository.getArtistsByUserId(id));
     }
 }

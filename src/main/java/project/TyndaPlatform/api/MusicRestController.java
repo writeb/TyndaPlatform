@@ -2,6 +2,7 @@ package project.TyndaPlatform.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import project.TyndaPlatform.dto.MusicDTO;
 import project.TyndaPlatform.model.Music;
 import project.TyndaPlatform.service.MusicService;
 
@@ -15,22 +16,22 @@ public class MusicRestController {
     private MusicService musicService;
 
     @GetMapping
-    public List<Music> getMusics(){
+    public List<MusicDTO> getMusics(){
         return musicService.getMusics();
     }
 
     @GetMapping(value = "{id}")
-    public Music getMusic(@PathVariable(name = "id") Long id){
+    public MusicDTO getMusic(@PathVariable(name = "id") Long id){
         return musicService.getMusicById(id);
     }
 
     @PostMapping
-    public Music addMusic(@RequestBody Music music){
+    public MusicDTO addMusic(@RequestBody MusicDTO music){
         return musicService.addMusic(music);
     }
 
     @PutMapping
-    public Music updateMusic(@RequestBody Music music){
+    public MusicDTO updateMusic(@RequestBody MusicDTO music){
         return musicService.updateMusic(music);
     }
 

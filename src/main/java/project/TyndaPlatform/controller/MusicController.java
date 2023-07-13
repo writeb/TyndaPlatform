@@ -1,14 +1,14 @@
 package project.TyndaPlatform.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import project.TyndaPlatform.model.Artist;
-import project.TyndaPlatform.model.Music;
+import project.TyndaPlatform.dto.ArtistDTO;
+import project.TyndaPlatform.dto.MusicDTO;
+import project.TyndaPlatform.mapper.ArtistMapper;
 import project.TyndaPlatform.service.AdminService;
 import project.TyndaPlatform.service.ArtistService;
 import project.TyndaPlatform.service.FileUploadService;
@@ -28,6 +28,9 @@ public class MusicController {
 
     @Autowired
     private ArtistService artistService;
+
+    @Autowired
+    private ArtistMapper artistMapper;
 
     @GetMapping(value = "/")
     public String homePage(Model model, @RequestParam(name = "key", required = false, defaultValue = "") String key){
@@ -51,11 +54,11 @@ public class MusicController {
                              @RequestParam(name = "music_image") MultipartFile multipartFile,
                              @RequestParam(name = "music_audio") MultipartFile multipartFile2){
 
-        Music music = new Music();
+        MusicDTO music = new MusicDTO();
         music.setTitle(title);
 
-        Artist artist = artistService.getArtistById(artistId);
-        music.setArtist(artist);
+        ArtistDTO artistDTO = artistService.getArtistById(artistId);
+        music.setArtist(artistDTO);
 
         music.setGenre(genre);
 

@@ -5,7 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import project.TyndaPlatform.model.Artist;
+import project.TyndaPlatform.dto.ArtistDTO;
 import project.TyndaPlatform.service.ArtistService;
 
 @Controller
@@ -22,7 +22,7 @@ public class ArtistController {
 
     @PreAuthorize("hasAnyRole('ROLE_VIP_USER', 'ROLE_ADMIN')")
     @PostMapping(value = "/add-artist")
-    public String addArtist(Artist artist){
+    public String addArtist(ArtistDTO artist){
         artistService.addArtist(artist);
         return "redirect:/";
     }

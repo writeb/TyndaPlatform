@@ -6,9 +6,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import project.TyndaPlatform.model.Music;
+import project.TyndaPlatform.dto.PermissionDTO;
+import project.TyndaPlatform.dto.UserDTO;
+import project.TyndaPlatform.mapper.PermissionMapper;
+import project.TyndaPlatform.mapper.UserMapper;
 import project.TyndaPlatform.model.Permission;
-import project.TyndaPlatform.model.User;
 import project.TyndaPlatform.repository.PermissionRepository;
 import project.TyndaPlatform.repository.UserRepository;
 
@@ -26,10 +28,16 @@ public class AdminService {
     @Autowired
     private PermissionRepository permissionRepository;
 
-    public User addUser(User user){
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private PermissionMapper permissionMapper;
+
+    public UserDTO addUser(UserDTO user){
         if (userRepository.findByEmail(user.getEmail()) == null){
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            User newUser = userRepository.save(user);
+            UserDTO newUser = userMapper.toDto(userRepository.save(userMapper.toModel(user)));
             changeUserRole(newUser.getId(), Long.valueOf(2));
             return newUser;
         }
@@ -37,19 +45,19 @@ public class AdminService {
     }
 
     public void changeUserRole(Long userId, Long roleId){
-        User user = userRepository.findById(userId).orElse(null);
+        UserDTO user = userMapper.toDto(userRepository.findById(userId).orElse(null));
         if (user!=null){
-            List<Permission> permissions = permissionRepository.findPermissionsById(roleId);
+            List<PermissionDTO> permissions = permissionMapper.toDtoList(permissionRepository.findPermissionsById(roleId));
             user.setPermissions(permissions);
-            userRepository.save(user);
+            userMapper.toDto(userRepository.save(userMapper.toModel(user)));
         }
     }
 
-    public User updatePassword(String newPassword, String oldPassword) {
-        User currentUser = getCurrentSessionUser();
+    public UserDTO updatePassword(String newPassword, String oldPassword) {
+        UserDTO currentUser = getCurrentSessionUser();
         if (passwordEncoder.matches(oldPassword, currentUser.getPassword())) {
             currentUser.setPassword(passwordEncoder.encode(newPassword));
-            return userRepository.save(currentUser);
+            return userMapper.toDto(userRepository.save(userMapper.toModel(currentUser)));
         }
         return null;
     }
@@ -58,14 +66,14 @@ public class AdminService {
         userRepository.deleteById(id);
     }
 
-    public List<User> getUsers(){
-        return userRepository.findAll();
+    public List<UserDTO> getUsers(){
+        return userMapper.toDtoList(userRepository.findAll());
     }
 
-    public User getCurrentSessionUser(){
+    public UserDTO getCurrentSessionUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)){
-            User user = (User) authentication.getPrincipal();
+            UserDTO user = (UserDTO) authentication.getPrincipal();
             if (user!=null){
                 return user;
             }
@@ -73,8 +81,7 @@ public class AdminService {
         return null;
     }
 
-    public List<User> searchUser(String key){
-        List<User> userList = userRepository.searchUser(key);
-        return userList;
+    public List<UserDTO> searchUser(String key){
+        return userMapper.toDtoList(userRepository.searchUser(key));
     }
 }

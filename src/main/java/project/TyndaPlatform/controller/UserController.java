@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import project.TyndaPlatform.dto.UserDTO;
 import project.TyndaPlatform.model.User;
 import project.TyndaPlatform.service.AdminService;
 import project.TyndaPlatform.service.ArtistService;
@@ -64,11 +65,11 @@ public class  UserController {
                          @RequestParam(name = "user_repeat_password") String repeatPassword){
 
         if (password.equals(repeatPassword)){
-            User user = new User();
+            UserDTO user = new UserDTO();
             user.setEmail(email);
             user.setFullName(fullName);
             user.setPassword(password);
-            User newUser = adminService.addUser(user);
+            UserDTO newUser = adminService.addUser(user);
             if (newUser!=null){
                 return "redirect:/login";
             } else {
@@ -90,7 +91,7 @@ public class  UserController {
                                    @RequestParam(name = "user_repeat_new_password") String user_repeat_new_password){
         if (user_new_password.equals(user_repeat_new_password)){
 
-            User user = adminService.updatePassword(user_new_password, user_old_password);
+            UserDTO user = adminService.updatePassword(user_new_password, user_old_password);
 
             if (user!=null){
                 return "redirect:/profile";

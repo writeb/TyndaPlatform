@@ -2,7 +2,8 @@ package project.TyndaPlatform.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import project.TyndaPlatform.model.Music;
+import project.TyndaPlatform.dto.MusicDTO;
+import project.TyndaPlatform.mapper.MusicMapper;
 import project.TyndaPlatform.repository.MusicRepository;
 
 import java.util.List;
@@ -13,33 +14,36 @@ public class MusicService {
     @Autowired
     private MusicRepository musicRepository;
 
-    public Music addMusic(Music music){
-        return musicRepository.save(music);
+    @Autowired
+    private MusicMapper musicMapper;
+
+    public MusicDTO addMusic(MusicDTO music){
+
+        return musicMapper.toDto(musicRepository.save(musicMapper.toModel(music)));
     }
 
-    public List<Music> getMusics(){
-        return musicRepository.findAll();
+    public List<MusicDTO> getMusics(){
+        return musicMapper.toDtoList(musicRepository.findAll());
     }
 
     public void deleteMusicById(Long id){
         musicRepository.deleteMusicById(id);
     }
 
-    public Music getMusicById(Long id){
-        return musicRepository.getMusicById(id);
+    public MusicDTO getMusicById(Long id){
+        return musicMapper.toDto(musicRepository.getMusicById(id));
     }
 
-    public List<Music> searchMusic(String key){
-        List<Music> musicList = musicRepository.searchMusic(key);
-        return musicList;
+    public List<MusicDTO> searchMusic(String key){
+        return musicMapper.toDtoList(musicRepository.searchMusic(key));
     }
 
-    public List<Music> getMusicsByUserId(Long id){
-        return musicRepository.getMusicByUserId(id);
+    public List<MusicDTO> getMusicsByUserId(Long id){
+        return musicMapper.toDtoList(musicRepository.getMusicByUserId(id));
     }
 
-    public Music updateMusic(Music music){
-        return musicRepository.save(music);
+    public MusicDTO updateMusic(MusicDTO music){
+        return musicMapper.toDto(musicRepository.save(musicMapper.toModel(music)));
     }
 
 }
