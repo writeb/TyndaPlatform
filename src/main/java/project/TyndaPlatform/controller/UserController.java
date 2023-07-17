@@ -45,7 +45,7 @@ public class  UserController {
     @PostMapping(value = "/assign-vip")
     public String assignVip(@RequestParam(name = "userId") Long userId, @RequestParam(name = "roleId") Long roleId){
         adminService.changeUserRole(userId, roleId);
-        return "redirect:/";
+        return "redirect:/subscription?success";
     }
 
     @GetMapping(value = "/403-error")

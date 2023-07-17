@@ -21,8 +21,8 @@ public interface MusicRepository extends JpaRepository<Music, Long> {
 
     Music getMusicById(Long id);
 
-    @Query("SELECT mus FROM Music mus WHERE lower(mus.title) LIKE lower(concat('%', :criteria, '%'))")
-    List<Music> searchMusic(@Param("criteria") String title);
+    @Query("SELECT mus FROM Music mus WHERE lower(mus.title) LIKE lower(concat('%', :criteria, '%')) and mus.user.id=:id")
+    List<Music> searchMusic(@Param("criteria") String title, @Param("id") Long id);
 
     List<Music> getMusicByUserId(Long id);
 

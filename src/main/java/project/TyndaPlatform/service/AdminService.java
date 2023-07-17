@@ -11,14 +11,15 @@ import project.TyndaPlatform.dto.UserDTO;
 import project.TyndaPlatform.mapper.PermissionMapper;
 import project.TyndaPlatform.mapper.UserMapper;
 import project.TyndaPlatform.model.Permission;
+import project.TyndaPlatform.model.User;
 import project.TyndaPlatform.repository.PermissionRepository;
 import project.TyndaPlatform.repository.UserRepository;
+
 
 import java.util.List;
 
 @Service
 public class AdminService {
-
     @Autowired
     private UserRepository userRepository;
 
@@ -73,9 +74,10 @@ public class AdminService {
     public UserDTO getCurrentSessionUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)){
-            UserDTO user = (UserDTO) authentication.getPrincipal();
-            if (user!=null){
-                return user;
+            User user= (User) authentication.getPrincipal();
+            UserDTO userDTO = userMapper.toDto(user);
+            if (userDTO!=null){
+                return userDTO;
             }
         }
         return null;

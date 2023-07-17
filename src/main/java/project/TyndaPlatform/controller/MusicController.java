@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import project.TyndaPlatform.dto.ArtistDTO;
 import project.TyndaPlatform.dto.MusicDTO;
-import project.TyndaPlatform.mapper.ArtistMapper;
 import project.TyndaPlatform.service.AdminService;
 import project.TyndaPlatform.service.ArtistService;
 import project.TyndaPlatform.service.FileUploadService;
@@ -28,9 +27,6 @@ public class MusicController {
 
     @Autowired
     private ArtistService artistService;
-
-    @Autowired
-    private ArtistMapper artistMapper;
 
     @GetMapping(value = "/")
     public String homePage(Model model, @RequestParam(name = "key", required = false, defaultValue = "") String key){
@@ -66,7 +62,7 @@ public class MusicController {
                 multipartFile.getContentType().equals("image/png") ||
                 multipartFile.getContentType().equals("image/webp")){
 
-            fileUploadService.uploadImage(multipartFile, music);
+            music.setImage(fileUploadService.uploadImage(multipartFile));
         }
 
         if (multipartFile2.getContentType().equals("audio/mp4") ||
@@ -74,7 +70,7 @@ public class MusicController {
                 multipartFile2.getContentType().equals("audio/wav") ||
                 multipartFile2.getContentType().equals("audio/ogg")){
 
-            fileUploadService.uploadMusic(multipartFile2, music);
+            music.setAudio(fileUploadService.uploadMusic(multipartFile2));
         }
 
         music.setUser(adminService.getCurrentSessionUser());

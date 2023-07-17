@@ -16,6 +16,9 @@
             overflow-x: auto;
             overflow-y: hidden;
             white-space: nowrap;">
+            <div th:if="${musics.size()==0}">
+                <h2 style="color: darkgrey;">You have not any music</h2>
+            </div>
             <div class="card playlist bg-dark" style="width: 11rem;" th:each="song: ${musics}">
                 <img th:src="@{'/get-image/' + ${song.getImage()}}" height="130px" width="173px">
                 <div class="card-body">
@@ -32,6 +35,9 @@
             overflow-x: auto;
             overflow-y: hidden;
             white-space: nowrap;">
+            <div th:if="${musics.size()==0}">
+                <h2 style="color: darkgrey;">You have not any artist</h2>
+            </div>
             <div class="card playlist bg-dark" style="width: 11rem;" th:each="artist: ${artists}">
                 <div class="card-body">
                     <h5 class="card-title playlist-name" style="color: whitesmoke" th:text="${artist.getNickname()}"></h5>

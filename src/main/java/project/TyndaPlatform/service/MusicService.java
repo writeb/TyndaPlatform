@@ -15,6 +15,9 @@ public class MusicService {
     private MusicRepository musicRepository;
 
     @Autowired
+    private AdminService adminService;
+
+    @Autowired
     private MusicMapper musicMapper;
 
     public MusicDTO addMusic(MusicDTO music){
@@ -35,7 +38,7 @@ public class MusicService {
     }
 
     public List<MusicDTO> searchMusic(String key){
-        return musicMapper.toDtoList(musicRepository.searchMusic(key));
+        return musicMapper.toDtoList(musicRepository.searchMusic(key, adminService.getCurrentSessionUser().getId()));
     }
 
     public List<MusicDTO> getMusicsByUserId(Long id){

@@ -2,7 +2,6 @@ package project.TyndaPlatform.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import project.TyndaPlatform.model.User;
 
 @Getter
 @Setter
@@ -14,5 +13,4 @@ public class MusicDTO {
     private String audio;
     private ArtistDTO artist;
     private UserDTO user;
-
 }

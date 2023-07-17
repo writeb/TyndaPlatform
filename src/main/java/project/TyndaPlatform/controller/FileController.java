@@ -25,7 +25,7 @@ public class FileController {
     public @ResponseBody byte[] getImage(@PathVariable(name = "token", required = false) String token) throws IOException {
         String imageURL = loadImageURL + "default.png";
         if (token!=null){
-            imageURL = loadImageURL + token + ".jpg";
+            imageURL = loadImageURL + token;
         }
         InputStream in;
         try{
@@ -43,7 +43,7 @@ public class FileController {
     public @ResponseBody byte[] getMusic(@PathVariable(name = "musicToken", required = false) String token) throws IOException {
         String musicURL = loadMusicURL;
         if (token!=null){
-            musicURL = loadMusicURL + token + ".mp3";
+            musicURL = loadMusicURL + token;
         }
         InputStream in;
         try{

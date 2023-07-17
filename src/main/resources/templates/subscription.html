@@ -35,6 +35,9 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-6 mx-auto">
+                    <div class="alert alert-warning" role="alert" th:if="${param.success!=null}">
+                        You need to re-login to the site for the subscription to work !
+                    </div>
                     <form th:action="@{'/assign-vip'}" method="post">
                         <input type="hidden" name="userId" th:value="${#authentication.principal.id}">
                         <input type="hidden" name="roleId" th:value="3">
